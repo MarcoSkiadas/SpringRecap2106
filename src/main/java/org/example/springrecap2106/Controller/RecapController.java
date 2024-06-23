@@ -2,23 +2,41 @@ package org.example.springrecap2106.Controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.springrecap2106.Model.ToDo;
+import org.example.springrecap2106.Model.ToDoWithoutID;
 import org.example.springrecap2106.Service.RecapService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+
 @RestController
-@RequestMapping
+@RequestMapping("/api/todo")
 @RequiredArgsConstructor
 public class RecapController {
 
     private final RecapService recapService;
 
-    @GetMapping("/api/todo")
-    public ToDo getToDo(@RequestBody ToDo toDo) {
-        return recapService.getToDo(toDo);
+    @GetMapping()
+    public List<ToDo> getToDo() {
+        return recapService.getToDo();
     }
-@PostMapping("/api/todo")
-    public ToDo addToDo(@RequestBody ToDo toDo) {
-    return null;
+@PostMapping()
+    public void addToDo(@RequestBody ToDoWithoutID toDo) {
+    recapService.addToDo(toDo);
 }
+    @GetMapping("/{id}")
+    public ToDo getDetail(@PathVariable String id) {
+        return recapService.getDetail(id);
+
+    }
+    @PutMapping("/{id}")
+    public void updateToDo(@PathVariable String id, @RequestBody ToDo toDo) {
+        recapService.updateToDo(id, toDo);
+    }
+    @DeleteMapping("/{id}")
+    public void deleteToDo(@PathVariable String id) {
+        recapService.deleteToDo(id);
+    }
+
 
 }
